@@ -17,6 +17,8 @@ import org.springframework.batch.item.file.transform.DelimitedLineTokenizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.task.SimpleAsyncTaskExecutor;
+import org.springframework.core.task.TaskExecutor;
 
 @Configuration
 @EnableBatchProcessing
@@ -75,6 +77,7 @@ public class SpringBatchConfig {
                 .reader(reader())
                 .processor(processor())
                 .writer(writer())
+                .taskExecutor(taskExecutor()) // This will execute in parallel
                 .build();
     }
 
@@ -82,6 +85,12 @@ public class SpringBatchConfig {
     public Job runJob(){
         return jobBuilderFactory.get("importCustomers")
                 .flow(step1()).end().build();
+    }
+    @Bean
+    public TaskExecutor taskExecutor(){
+        SimpleAsyncTaskExecutor taskExecutor = new SimpleAsyncTaskExecutor();
+        taskExecutor.setConcurrencyLimit(10);
+        return taskExecutor;
     }
 
 }

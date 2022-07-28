@@ -29,3 +29,10 @@ For Eg: If I have a large data set in csv file that i need to move into db, writ
 	> Job can have multiple steps and Steps can have ItemReader, ItemProcessor, ItemWriter
 
 	
+- Create a Spring boot project using following dependency
+	- Spring Web
+	- Spring Batch 
+	- Spring Data JPA
+	- MySQL Driver
+	- Lombok
+	
